@@ -6,7 +6,7 @@ Live Frontend:
 GraphQL Endpoint:  
 GraphQL Playground/Sandbox:  
 Spring Boot Health Endpoint:  
-GitHub Repository:  
+GitHub Repository: https://github.com/Amitkumrsingh/mini-payment-ledger  
 
 ## Architecture
 
@@ -31,8 +31,8 @@ Payment idempotency uses both an application lookup and a unique `external_payme
 Requirements: Docker Desktop with Compose v2+.
 
 ```bash
-git clone <repository-url>
-cd Fintech
+git clone https://github.com/Amitkumrsingh/mini-payment-ledger.git
+cd mini-payment-ledger
 cp .env.example .env
 docker compose up --build
 ```
