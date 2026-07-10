@@ -159,6 +159,20 @@ Authentication is intentionally outside this skill-test scope. A production depl
 
 No source changes are required between local and cloud environments.
 
+### One-click Render deployment
+
+The root `render.yaml` Blueprint provisions both Docker APIs, the static React site, and a free PostgreSQL database in Singapore:
+
+[Deploy to Render](https://dashboard.render.com/blueprints/new?repo=https://github.com/Amitkumrsingh/mini-payment-ledger)
+
+Review the Blueprint, select the Free plans, and apply it. The expected public endpoints are:
+
+- Frontend: `https://amitkumrsingh-mini-ledger.onrender.com`
+- GraphQL: `https://amitkumrsingh-mini-ledger-graphql.onrender.com/graphql`
+- Spring health: `https://amitkumrsingh-mini-ledger-payment.onrender.com/actuator/health`
+
+Render free web services sleep after 15 minutes of inactivity and can take about a minute to wake. The free PostgreSQL instance expires after 30 days, which is intended only for this skill-test deployment.
+
 1. Provision managed PostgreSQL on Neon, Supabase, Railway, or Render; require TLS and capture its JDBC connection values.
 2. Deploy `payment-service/Dockerfile` to a Docker-compatible service. Set `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`, `CORS_ALLOWED_ORIGINS`, and `SEED_DATA_ENABLED=false`. Verify `/actuator/health`.
 3. Deploy `graphql-api/Dockerfile`. Set `PAYMENT_SERVICE_BASE_URL` to the private Spring URL, `CORS_ALLOWED_ORIGINS` to the frontend origin, and `PORT` as required by the platform. Verify `/health` and `/graphql`.
