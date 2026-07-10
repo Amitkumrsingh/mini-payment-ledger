@@ -1,0 +1,2 @@
+import {describe,expect,it} from 'vitest';import {dollarsToCents,formatCents} from '../utils/money';
+describe('money helpers',()=>{it('converts dollars without floating point arithmetic',()=>{expect(dollarsToCents('120.05')).toBe('12005');expect(dollarsToCents('0.10')).toBe('10')});it('rejects excess decimal precision',()=>{expect(()=>dollarsToCents('1.001')).toThrow()});it('formats cents',()=>{expect(formatCents('12005')).toBe('$120.05')})});

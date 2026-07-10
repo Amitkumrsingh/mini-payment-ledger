@@ -1,0 +1,10 @@
+.env
+**/.env
+**/node_modules/
+**/dist/
+**/coverage/
+**/*.tsbuildinfo
+payment-service/target/
+.idea/
+.vscode/
+.DS_Store
