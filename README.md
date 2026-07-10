@@ -2,10 +2,10 @@
 
 A production-minded Accounts Payable module for a Transportation Management System. It demonstrates immutable double-entry accounting, derived balances, invoice lifecycle management, idempotent payment webhooks, and concurrency-safe settlement through a polished finance operations UI.
 
-Live Frontend:  
-GraphQL Endpoint:  
-GraphQL Playground/Sandbox:  
-Spring Boot Health Endpoint:  
+Live Frontend: https://amitkumrsingh-mini-ledger.onrender.com  
+GraphQL Endpoint: https://amitkumrsingh-mini-ledger-graphql.onrender.com/graphql  
+GraphQL Playground/Sandbox: https://amitkumrsingh-mini-ledger-graphql.onrender.com/graphql  
+Spring Boot Health Endpoint: https://amitkumrsingh-mini-ledger-payment.onrender.com/actuator/health  
 GitHub Repository: https://github.com/Amitkumrsingh/mini-payment-ledger  
 
 ## Architecture
