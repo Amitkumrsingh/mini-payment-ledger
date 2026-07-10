@@ -165,7 +165,7 @@ The root `render.yaml` Blueprint provisions both Docker APIs, the static React s
 
 [Deploy to Render](https://dashboard.render.com/blueprints/new?repo=https://github.com/Amitkumrsingh/mini-payment-ledger)
 
-Review the Blueprint, select the Free plans, and apply it. The expected public endpoints are:
+Review the Blueprint, select the Free plans, and apply it. Hosted deployments start with an empty business dataset; reviewers can create accounts and invoices through the UI. The expected public endpoints are:
 
 - Frontend: `https://amitkumrsingh-mini-ledger.onrender.com`
 - GraphQL: `https://amitkumrsingh-mini-ledger-graphql.onrender.com/graphql`
