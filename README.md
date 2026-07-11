@@ -8,6 +8,8 @@ GraphQL Playground/Sandbox: https://amitkumrsingh-mini-ledger-graphql.onrender.c
 Spring Boot Health Endpoint: https://amitkumrsingh-mini-ledger-payment.onrender.com/actuator/health  
 GitHub Repository: https://github.com/Amitkumrsingh/mini-payment-ledger  
 
+The hosted deployment intentionally starts with no demo invoices, payments, or ledger transactions. Only the required AP and Cash system accounts are installed so reviewers can verify that UI data is coming from PostgreSQL through GraphQL.
+
 ## Architecture
 
 ```mermaid
@@ -77,6 +79,21 @@ cd frontend && npm ci && npm run lint && npm test && npm run build
 ```
 
 Spring integration tests use Testcontainers with PostgreSQL—not H2—including a synchronized two-request overpayment test. Docker must be available for those tests.
+
+## Hosted reviewer flow
+
+Use the live frontend at https://amitkumrsingh-mini-ledger.onrender.com.
+
+1. Confirm the empty starting state: dashboard outstanding should be `$0.00`, recent payments should say `No payments recorded yet`, the invoices page should be empty, and the ledger page should have no transactions.
+2. Create a draft invoice from `Create invoice`, for example `INV-1001` for `ABC Transport Services` with a `Freight service` line item for `$100.00`.
+3. Open the invoice detail page and click `Send invoice`. The status should move from `DRAFT` to `SENT`.
+4. Apply a `$40.00` payment using the generated external payment ID. The invoice should become `PARTIALLY_PAID`, with `$40.00` paid and `$60.00` outstanding.
+5. Submit the same external payment ID and amount again to verify idempotency. The existing payment is returned and the paid amount remains `$40.00`.
+6. Try to submit more than the outstanding amount, such as `$100.00`, and verify the UI/backend reject overpayment.
+7. Generate a new external payment ID and pay the remaining `$60.00`. The invoice should become `PAID`, outstanding should be `$0.00`, and the payment form should disable.
+8. Visit `Ledger` and `Accounts` to confirm successful payments produced balanced double-entry journal records and derived account balances.
+
+Render free services can sleep after inactivity. If the first hosted request is slow or briefly returns `503`, wait about a minute and retry.
 
 ## GraphQL API examples
 
@@ -177,7 +194,7 @@ Render free web services sleep after 15 minutes of inactivity and can take about
 2. Deploy `payment-service/Dockerfile` to a Docker-compatible service. Set `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`, `CORS_ALLOWED_ORIGINS`, and `SEED_DATA_ENABLED=false`. Verify `/actuator/health`.
 3. Deploy `graphql-api/Dockerfile`. Set `PAYMENT_SERVICE_BASE_URL` to the private Spring URL, `CORS_ALLOWED_ORIGINS` to the frontend origin, and `PORT` as required by the platform. Verify `/health` and `/graphql`.
 4. Deploy `frontend` to Vercel/Netlify with `npm run build` and output `dist`, setting `VITE_GRAPHQL_URL` before build. Alternatively deploy its Dockerfile to any container host.
-5. Add the final origins to both CORS configurations, execute the create/send/pay/replay smoke test, and fill in the live-link placeholders above.
+5. Add the final origins to both CORS configurations and execute the create/send/pay/replay smoke test.
 
 Keep secrets exclusively in the hosting platform’s encrypted environment settings. Do not enable development seed data against production data.
 
@@ -198,7 +215,7 @@ Authentication and role-based authorization, vendor management, webhook signatur
 ## Submission checklist
 
 - [ ] `docker compose up --build` reports all services healthy
-- [ ] Dashboard and seeded invoice statuses render
+- [ ] Hosted dashboard starts from the database-backed empty state
 - [ ] Draft invoice creation and send flow work
 - [ ] Partial and final payments post balanced ledger entries
 - [ ] Identical payment replay returns the same payment
